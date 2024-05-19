@@ -1,33 +1,48 @@
-import React, { useState } from 'react'
-
-import ToDoForm from '../components/ToDoForm'
-import ToDoList from '../components/ToDoList'
+import React, { useState } from "react";
+import ToDoForm from "../components/ToDoForm";
+import ToDoList from "../components/ToDoList";
+import { Button } from "@mui/material";
 
 const ToDo = () => {
-    const [todos, setTodos] = useState([])
+    const [todos, setTodos] = useState([
+        { id: 1, task: "menyapu", complete: false },
+        { id: 2, task: "mengepel", complete: true }
+    ]);
 
     const handleClick = (todo) => {
-        setTodos([...todos, todo])
-        console.log(todos)
-    }
+        const newTodo = {
+            id: todos.length + 1,
+            task: todo,
+            complete: false
+        };
+        setTodos([...todos, newTodo]);
+    };
 
-    const wrapper = {
-        width: '30rem',
-        margin: 'auto',
-        marginTop: '2rem',
-        padding: '5rem',
-        background: 'white',
-        borderRadius: '15px',
-        background: '#ACE2E1'
+    const handleCheckbox = (id) => {
+        const newTodos = [...todos];
+        const index = newTodos.findIndex((todo) => todo.id === id);
+        newTodos[index].complete = !newTodos[index].complete;
+        setTodos(newTodos);
+    };
 
-    }
+    const handleDelete = () => {
+        const newTodos = todos.filter((todo) => !todo.complete);
+        setTodos(newTodos);
+    };
+
+    const removeCompleted = () => {
+        const newTodos = todos.filter((todo) => !todo.complete);
+        setTodos(newTodos);
+    };
+
     return (
-        <div className="todo" style={wrapper}>
-            <h2 className='title' style={{ textAlign: 'center' }}>To-Do List</h2>
+        <div className="todo">
+            <h2 className="title">To-Do List</h2>
             <ToDoForm handleClick={handleClick} />
-            <ToDoList todo={todos} />
+            <ToDoList todos={todos} handleCheckbox={handleCheckbox} />
+            <Button variant="outlined" color="error" onClick={removeCompleted}>Remove completed</Button>
         </div>
-    )
-}
+    );
+};
 
-export default ToDo
+export default ToDo;

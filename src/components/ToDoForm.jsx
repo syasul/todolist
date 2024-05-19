@@ -1,19 +1,34 @@
-import React, { useState } from 'react'
+import { Button, TextField } from '@mui/material';
+import React, { useState } from 'react';
+import ToDo from '../containers/ToDo';
 
 const ToDoForm = ({ handleClick }) => {
-    const [todo, setTodo] = useState("")
+    const [todo, setTodo] = useState("");
 
     return (
-        <div style={{ textAlign: 'center' }}>
+        <div className='todo-form'>
             <p>~ Today I need to ~</p>
             <span>
-                <input value={todo} onChange={(e) => {
-                    setTodo(e.target.value)
-                }} />
-                <button onClick={() => handleClick(todo)} style={{ marginLeft: '1rem' }}>Submit</button>
+                <TextField
+                    value={todo}
+                    onChange={(e) => {
+                        setTodo(e.target.value);
+                    }}
+                    variant="outlined"
+                    label="To Do"
+                />
+                <Button
+                    onClick={() => {
+                        handleClick(todo);
+                        setTodo("");
+                    }}
+                    variant='contained'
+                    color='success'
+                >Sumbit
+                </Button>
             </span>
         </div>
-    )
-}
+    );
+};
 
-export default ToDoForm
+export default ToDoForm;
